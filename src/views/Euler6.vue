@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <h1>Euler 6</h1>
-    <label>input({{ input }}): </label>
-    <input v-model="input" type="number" min="2" />
-    <br />
-    <textarea :value="JSON.stringify(challenge)"></textarea>
-  </div>
+  <problem
+    :input="input"
+    :challenge="challenge"
+    @input="value => (input = value)"
+  />
 </template>
 
 <script>

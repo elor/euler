@@ -1,11 +1,10 @@
 <template>
-  <div>
-    <h1>Euler 4</h1>
-    <label>input({{ input }}): </label>
-    <input v-model="input" type="number" min="0" />
-    <br />
-    <textarea :value="JSON.stringify(challenge)"></textarea>
-  </div>
+  <problem
+    :input="input"
+    :min="0"
+    :challenge="challenge"
+    @input="value => (input = value)"
+  />
 </template>
 
 <script>
@@ -19,30 +18,33 @@ function isPalindrome (number) {
 export default {
   data () {
     return {
-      input: 9009
+      input: 999
     }
   },
   computed: {
     challenge () {
-      const start = { high: 999, low: 999, product: 999 * 999 }
+      const start = { high: this.input, low: this.input, product: 999 * 999 }
       let stack = [start]
       let largest = { product: 0 }
 
       while (stack.length) {
         const pair = stack.pop()
-        console.log(pair)
         if (isPalindrome(pair.product)) {
           largest = pair
         }
 
         if (pair.high > pair.low) {
-          const newPair = { high: pair.high - 1, low: pair.low, product: pair.product - pair.low }
+          const low = pair.low
+          const high = pair.high - 1
+          const newPair = { high, low, product: high * low }
           if (newPair.product > largest.product) {
             stack.push(newPair)
           }
         }
         if (pair.low > 0) {
-          const newPair = { high: pair.high, low: pair.low - 1, product: pair.product - pair.high }
+          const low = pair.low - 1
+          const high = pair.high
+          const newPair = { high, low, product: high * low }
           if (newPair.product > largest.product) {
             stack.push(newPair)
           }

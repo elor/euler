@@ -1,21 +1,13 @@
 <template>
-  <div>
-    <h1>Euler 3</h1>
-    <label>input({{ input }}): </label>
-    <input v-model="input" type="number" :min="min" />
-    <br />
-    <textarea :value="challenge"></textarea>
-    <p>
-      Update Time: {{ updateMillis }} millis (= {{ updateFPS.toFixed(2) }} FPS)
-    </p>
-  </div>
+  <problem
+    :input="input"
+    :min="2"
+    :challenge="challenge"
+    @input="value => (input = value)"
+  />
 </template>
 
 <script>
-function now () {
-  return new Date().getTime()
-}
-
 function isPrime (number, factors) {
   return !factors.some(prime => number % prime === 0)
 }
@@ -33,10 +25,7 @@ function factorizeRest (primeCandidate, primes, rest, factors) {
 export default {
   data () {
     return {
-      input: 600851475143,
-      min: 2,
-      lastTime: undefined,
-      updateMillis: 0
+      input: 600851475143
     }
   },
   computed: {
@@ -52,22 +41,7 @@ export default {
       }
 
       return factors.reverse()
-    },
-    updateFPS () {
-      return 1000 / this.updateMillis
     }
-  },
-  watch: {
-    challenge () {
-      const lastTime = this.lastTime
-      this.lastTime = now()
-      if (lastTime) {
-        this.updateMillis = this.lastTime - lastTime
-      }
-    }
-  },
-  mounted () {
-    this.lastTime = now()
   }
 }
 </script>
