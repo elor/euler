@@ -22,6 +22,17 @@ function factorizeRest (primeCandidate, primes, rest, factors) {
   return rest
 }
 
+function factorize (number) {
+  let factors = []
+  let primes = []
+  let rest = number
+  factorizeRest(2, primes, rest, factors)
+  for (let primeCandidate = 3; primeCandidate <= rest; primeCandidate += 2) {
+    rest = factorizeRest(primeCandidate, primes, rest, factors)
+  }
+  return factors
+}
+
 export default {
   data () {
     return {
@@ -30,18 +41,11 @@ export default {
   },
   computed: {
     challenge () {
-      let factors = []
-      let primes = []
-      let rest = this.input
-
-      factorizeRest(2, primes, rest, factors)
-
-      for (let primeCandidate = 3; primeCandidate <= rest; primeCandidate += 2) {
-        rest = factorizeRest(primeCandidate, primes, rest, factors)
-      }
+      const factors = factorize(this.input)
 
       return factors.reverse()
     }
   }
 }
+
 </script>
