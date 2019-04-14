@@ -51,8 +51,6 @@ const ALL_RUNS = [
   ...RIGHT_DIAGS
 ]
 
-console.log(RIGHT_DIAGS)
-
 export default {
   data () {
     return {
@@ -67,7 +65,7 @@ export default {
 
       for (let run of ALL_RUNS) {
         for (let i of range(run.length - matchlength)) {
-          const slice = run.slice(i, i + 4)
+          const slice = run.slice(i, i + matchlength)
           const product = slice.reduce((a, b) => a * b)
           if (product > largest) {
             largest = product
