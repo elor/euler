@@ -2,10 +2,12 @@
   <div>
     <h1>Euler 3</h1>
     <label>input({{ input }}): </label>
-    <input v-model="input" type="number" min="0" />
+    <input v-model="input" type="number" :min="min" />
     <br />
     <textarea :value="challenge"></textarea>
-    <p>Update Time: {{ updateMillis }} millis (= {{ updateFPS }} FPS)</p>
+    <p>
+      Update Time: {{ updateMillis }} millis (= {{ updateFPS.toFixed(2) }} FPS)
+    </p>
   </div>
 </template>
 
@@ -32,6 +34,7 @@ export default {
   data () {
     return {
       input: 600851475143,
+      min: 2,
       lastTime: undefined,
       updateMillis: 0
     }
