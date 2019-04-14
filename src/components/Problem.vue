@@ -22,7 +22,7 @@
       :min="min"
     />
     <br />
-    <textarea :value="JSON.stringify(challenge)"></textarea>
+    <textarea rows="10" cols="80" :value="JSON.stringify(challenge)"></textarea>
     <p>
       Update Time: {{ updateMillis }} millis (= {{ updateFPS.toFixed(2) }} FPS)
     </p>
