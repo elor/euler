@@ -5,30 +5,66 @@
     <input v-model="input" type="number" min="0" />
     <br />
     <textarea :value="challenge"></textarea>
+    <p>Update Time: {{ updateMillis }} millis (= {{ updateFPS }} FPS)</p>
   </div>
 </template>
 
 <script>
+function now () {
+  return new Date().getTime()
+}
+
+function isPrime (number, factors) {
+  return !factors.some(prime => number % prime === 0)
+}
+
+function factorizeRest (primeCandidate, primes, rest, factors) {
+  if (isPrime(primeCandidate, primes)) {
+    while (rest % primeCandidate === 0) {
+      factors.push(primeCandidate)
+      rest /= primeCandidate
+    }
+  }
+  return rest
+}
+
 export default {
   data () {
     return {
-      input: 600851475143
+      input: 600851475143,
+      lastTime: undefined,
+      updateMillis: 0
     }
   },
   computed: {
     challenge () {
+      let factors = []
       let primes = []
       let rest = this.input
 
-      for (let currentPrime = 2; currentPrime <= rest; currentPrime += 1) {
-        while (rest % currentPrime === 0) {
-          primes.push(currentPrime)
-          rest /= currentPrime
-        }
+      factorizeRest(2, primes, rest, factors)
+
+      for (let primeCandidate = 3; primeCandidate <= rest; primeCandidate += 2) {
+        rest = factorizeRest(primeCandidate, primes, rest, factors)
       }
 
-      return primes.reverse()
+      return factors.reverse()
+    },
+    updateFPS () {
+      return 1000 / this.updateMillis
     }
+  },
+  watch: {
+    challenge () {
+      const lastTime = this.lastTime
+      this.lastTime = now()
+      if (lastTime) {
+        this.updateMillis = this.lastTime - lastTime
+      }
+    }
+  },
+  mounted () {
+    this.lastTime = now()
   }
 }
 </script>

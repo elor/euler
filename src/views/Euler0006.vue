@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Euler 5</h1>
+    <h1>Euler 6</h1>
     <label>input({{ input }}): </label>
     <input v-model="input" type="number" min="2" />
     <br />
